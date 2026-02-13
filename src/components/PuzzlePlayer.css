@@ -153,6 +153,8 @@
     border-radius: var(--border-radius-lg);
     user-select: none;
     overflow-x: auto;
+    touch-action: none;
+    /* Disable browser scrolling/zooming on the grid */
 }
 
 .grid-row {

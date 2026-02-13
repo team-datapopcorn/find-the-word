@@ -217,6 +217,12 @@ export default function PuzzlePlayer({ puzzle }: PuzzlePlayerProps) {
                         setIsDragging(false);
                         setSelection(null);
                     }}
+                    onTouchMove={(e) => {
+                        // Prevent page scrolling while dragging on the puzzle
+                        if (isDragging) {
+                            e.preventDefault();
+                        }
+                    }}
                 >
                     {puzzle.grid.map((row, rowIndex) => (
                         <div key={rowIndex} className="grid-row">
@@ -228,6 +234,35 @@ export default function PuzzlePlayer({ puzzle }: PuzzlePlayerProps) {
                                     onMouseDown={() => handleCellMouseDown(rowIndex, colIndex)}
                                     onMouseEnter={() => handleCellMouseEnter(rowIndex, colIndex)}
                                     onMouseUp={handleCellMouseUp}
+                                    // Touch Events
+                                    onTouchStart={(e) => {
+                                        // Prevent default to stop scrolling/zooming/selection
+                                        if (e.cancelable) e.preventDefault();
+                                        handleCellMouseDown(rowIndex, colIndex);
+                                    }}
+                                    onTouchMove={(e) => {
+                                        // Calculate which element is under the touch finger
+                                        const touch = e.touches[0];
+                                        const element = document.elementFromPoint(touch.clientX, touch.clientY);
+
+                                        if (element) {
+                                            // Check if the element is a grid-cell (or contained within one)
+                                            const cell = element.closest('.grid-cell');
+                                            if (cell) {
+                                                // Extract row/col from some data attribute or by finding React key/index
+                                                // Since we can't easily get the key from DOM, we can rely on data attributes
+                                                const r = parseInt(cell.getAttribute('data-row') || '-1');
+                                                const c = parseInt(cell.getAttribute('data-col') || '-1');
+
+                                                if (r >= 0 && c >= 0) {
+                                                    handleCellMouseEnter(r, c);
+                                                }
+                                            }
+                                        }
+                                    }}
+                                    onTouchEnd={handleCellMouseUp}
+                                    data-row={rowIndex}
+                                    data-col={colIndex}
                                 >
                                     {letter}
                                 </div>

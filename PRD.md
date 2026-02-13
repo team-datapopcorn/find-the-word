@@ -65,9 +65,12 @@
 ---
 
 ## 6. 향후 추가 기능 (Backlog)
-- **🖨️ 인쇄용 모드**: 배경 알파벳을 흐리게 처리하거나 정답지만 따로 출력하는 기능.
-- **🏆 랭킹 보드**: 해당 링크를 타고 들어온 사람들 간의 시간 기록 순위표.
-- **🎨 테마 스킨**: 시즌별(크리스마스, 할로윈 등) 배경 스킨 적용.
+## 6. Future Features (Out of Scope for MVP)
+- **User Authentication & Cloud Storage**: Implement simple login (Google/Kakao) to allow users to save their puzzles permanently to a database, ensuring access across multiple devices.
+- **Detailed Design Customization**: Allow users to upload background images or select different themes/colors.
+- **Difficulty Levels**: Options for grid size (e.g., 10x10 vs 20x20) and word placement complexity (e.g., allow backward words).
+- **Public Gallery**: A community page where users can publish their puzzles for anyone to play.
+- **Time Limits**: Set a countdown timer for added challenge.
 
 ---
 

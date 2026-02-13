@@ -15,7 +15,10 @@ export function generatePuzzle(
         .map(() => Array(GRID_SIZE).fill(''));
 
     const wordPositions: WordPosition[] = [];
-    const normalizedWords = words.map(w => w.toUpperCase().trim()).filter(w => w.length > 0);
+    // Remove all whitespace from words (e.g., "APPLE PIE" -> "APPLEPIE")
+    const normalizedWords = words
+        .map(w => w.toUpperCase().replace(/\s+/g, ''))
+        .filter(w => w.length > 0);
 
     // Try to place each word
     for (const word of normalizedWords) {
@@ -198,7 +201,8 @@ function fillEmptyCells(grid: string[][]): void {
 
     for (let row = 0; row < GRID_SIZE; row++) {
         for (let col = 0; col < GRID_SIZE; col++) {
-            if (grid[row][col] === '') {
+            // Check for empty string OR space
+            if (!grid[row][col] || grid[row][col] === '' || grid[row][col] === ' ') {
                 grid[row][col] = letters[Math.floor(Math.random() * letters.length)];
             }
         }

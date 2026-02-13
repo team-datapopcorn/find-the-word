@@ -67,9 +67,10 @@ export default function PuzzleCreator() {
     };
 
     const handleCopyUrl = () => {
-        if (publishedUrl) {
-            navigator.clipboard.writeText(publishedUrl);
-            alert('링크가 클립보드에 복사되었습니다!');
+        if (publishedUrl && currentPuzzle) {
+            const text = `🧩 [${currentPuzzle.title}] 퍼즐이 도착했어요!\n\n제한 시간 안에 숨겨진 단어를 모두 찾아보세요.\n\n👉 퍼즐 풀러 가기:\n${publishedUrl}`;
+            navigator.clipboard.writeText(text);
+            alert('초대장과 링크가 클립보드에 복사되었습니다! 💌');
         }
     };
 

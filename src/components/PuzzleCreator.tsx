@@ -125,7 +125,7 @@ export default function PuzzleCreator() {
                             <input
                                 type="text"
                                 className="input"
-                                placeholder="예: 우리 가족 이름 찾기"
+                                placeholder="예: 내 친구 이름 찾기"
                                 value={title}
                                 onChange={(e) => setTitle(e.target.value)}
                                 disabled={!!publishedUrl}

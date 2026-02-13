@@ -1,0 +1,296 @@
+.puzzle-player {
+    padding: var(--spacing-xl) 0;
+    min-height: 100vh;
+}
+
+.player-header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    animation: fadeIn 0.6s ease-out;
+}
+
+.player-header h1 {
+    margin-bottom: var(--spacing-md);
+}
+
+.player-stats {
+    display: flex;
+    gap: var(--spacing-lg);
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: var(--font-display);
+    color: var(--color-primary-light);
+}
+
+.start-screen,
+.complete-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-overlay);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+    animation: fadeIn 0.4s ease-out;
+}
+
+.start-content,
+.complete-content {
+    max-width: 500px;
+    text-align: center;
+    padding: var(--spacing-2xl);
+    animation: fadeIn 0.6s ease-out 0.2s backwards;
+}
+
+.start-content h2,
+.complete-content h2 {
+    margin-bottom: var(--spacing-md);
+}
+
+.start-content p {
+    color: var(--text-secondary);
+    font-size: 1.125rem;
+    margin-bottom: var(--spacing-xl);
+}
+
+.btn-large {
+    padding: 1.25rem 2.5rem;
+    font-size: 1.25rem;
+}
+
+.complete-icon {
+    font-size: 5rem;
+    margin-bottom: var(--spacing-md);
+    animation: fadeIn 0.8s ease-out 0.4s backwards;
+}
+
+.complete-time {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-lg);
+    background: var(--bg-tertiary);
+    border-radius: var(--border-radius-md);
+}
+
+.time-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.time-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    font-family: var(--font-display);
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.success-message {
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-md);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    border-radius: var(--border-radius-md);
+}
+
+.success-message p {
+    color: var(--text-primary);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.player-content {
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: var(--spacing-xl);
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+    transition: opacity var(--transition-base);
+}
+
+.player-content.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.puzzle-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--spacing-md);
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
+    user-select: none;
+    overflow-x: auto;
+}
+
+.grid-row {
+    display: flex;
+    gap: 4px;
+}
+
+.grid-cell {
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-sm);
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--text-primary);
+    font-family: monospace;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.grid-cell:hover {
+    background: var(--bg-secondary);
+    border-color: var(--color-primary);
+    transform: scale(1.05);
+}
+
+.grid-cell.selected {
+    background: var(--color-secondary);
+    border-color: var(--color-secondary-light);
+    color: var(--text-primary);
+    transform: scale(1.08);
+    box-shadow: var(--shadow-glow);
+}
+
+.grid-cell.found {
+    background: linear-gradient(135deg, var(--color-success), hsl(145, 70%, 45%));
+    border-color: var(--color-success);
+    color: var(--text-primary);
+    animation: foundAnimation 0.5s ease-out;
+}
+
+@keyframes foundAnimation {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.word-list-container {
+    position: sticky;
+    top: var(--spacing-md);
+    height: fit-content;
+}
+
+.word-list-container h3 {
+    margin-bottom: var(--spacing-md);
+    font-size: 1.125rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.word-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+}
+
+.word-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius-md);
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all var(--transition-base);
+}
+
+.word-item.found {
+    background: var(--bg-secondary);
+    border-color: var(--color-success);
+}
+
+.check-icon {
+    color: var(--color-success);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.strikethrough {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+@media (max-width: 1024px) {
+    .player-content {
+        grid-template-columns: 1fr;
+    }
+
+    .word-list-container {
+        position: static;
+    }
+}
+
+@media (max-width: 640px) {
+    .grid-cell {
+        width: 32px;
+        height: 32px;
+        font-size: 0.875rem;
+    }
+
+    .player-stats {
+        gap: var(--spacing-sm);
+    }
+
+    .stat-item {
+        padding: var(--spacing-xs) var(--spacing-sm);
+    }
+
+    .stat-icon {
+        font-size: 1.25rem;
+    }
+
+    .stat-value {
+        font-size: 1.25rem;
+    }
+}

@@ -275,7 +275,21 @@
     .grid-cell {
         width: 32px;
         height: 32px;
-        font-size: 0.875rem;
+        font-size: 0.9rem;
+        border-color: transparent;
+        background: transparent;
+    }
+
+    /* Keep styles for selected/found cells visible */
+    .grid-cell.selected {
+        background: var(--color-secondary);
+        border-color: var(--color-secondary-light);
+        box-shadow: none;
+    }
+
+    .grid-cell.found {
+        background: linear-gradient(135deg, var(--color-success), hsl(145, 70%, 45%));
+        border-color: var(--color-success);
     }
 
     .player-stats {

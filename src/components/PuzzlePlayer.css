@@ -228,6 +228,13 @@
     letter-spacing: 1px;
 }
 
+.word-list-helper {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.5;
+}
+
 .word-list {
     display: flex;
     flex-direction: column;

@@ -273,6 +273,7 @@ export default function PuzzlePlayer({ puzzle }: PuzzlePlayerProps) {
 
                 <div className="word-list-container card">
                     <h3>찾아야 할 단어</h3>
+                    <p className="word-list-helper">💡 가로, 세로, 대각선 방향으로<br />숨겨진 단어를 찾아보세요!</p>
                     <div className="word-list">
                         {puzzle.words.map((word, index) => {
                             const isFound = foundWords.some((fw) => fw.word === word);

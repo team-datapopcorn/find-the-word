@@ -339,6 +339,15 @@ export function getPuzzle(idOrData: string): Puzzle | null {
 }
 
 /**
+ * Delete a puzzle from localStorage
+ */
+export function deletePuzzle(id: string): void {
+    const puzzles = getPuzzles();
+    delete puzzles[id];
+    localStorage.setItem('puzzles', JSON.stringify(puzzles));
+}
+
+/**
  * Get puzzle URL using encoded data logic
  */
 export function getPuzzleUrl(puzzle: Puzzle): string {

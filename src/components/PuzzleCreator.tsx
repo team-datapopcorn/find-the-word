@@ -1,8 +1,9 @@
-import { useState } from 'react';
-import { generatePuzzle, savePuzzle, getPuzzleUrl } from '../utils';
+import { useState, useEffect } from 'react';
+import { generatePuzzle, savePuzzle, getPuzzles, deletePuzzle, getPuzzleUrl } from '../utils';
 import { Puzzle } from '../types';
 import PuzzlePreview from './PuzzlePreview';
 import './PuzzleCreator.css';
+
 
 export default function PuzzleCreator() {
     const [title, setTitle] = useState('');
@@ -11,6 +12,18 @@ export default function PuzzleCreator() {
     const [currentPuzzle, setCurrentPuzzle] = useState<Puzzle | null>(null);
     const [publishedUrl, setPublishedUrl] = useState<string | null>(null);
     const [isGenerating, setIsGenerating] = useState(false);
+    const [savedPuzzles, setSavedPuzzles] = useState<Puzzle[]>([]);
+
+    useEffect(() => {
+        loadSavedPuzzles();
+    }, []);
+
+    const loadSavedPuzzles = () => {
+        const puzzles = getPuzzles();
+        // Convert object to array and sort by date (newest first)
+        const sorted = Object.values(puzzles).sort((a, b) => b.createdAt - a.createdAt);
+        setSavedPuzzles(sorted);
+    };
 
     const handleWordChange = (index: number, value: string) => {
         const newWords = [...words];
@@ -63,6 +76,7 @@ export default function PuzzleCreator() {
             // Pass the entire puzzle object to generate the encoded URL
             const url = getPuzzleUrl(currentPuzzle);
             setPublishedUrl(url);
+            loadSavedPuzzles(); // Refresh list
         }
     };
 
@@ -71,6 +85,20 @@ export default function PuzzleCreator() {
             const text = `🧩 [${currentPuzzle.title}] 퍼즐이 도착했어요!\n\n제한 시간 안에 숨겨진 단어를 모두 찾아보세요.\n\n👉 퍼즐 풀러 가기:\n${publishedUrl}`;
             navigator.clipboard.writeText(text);
             alert('초대장과 링크가 클립보드에 복사되었습니다! 💌');
+        }
+    };
+
+    const handleCopySavedUrl = (puzzle: Puzzle) => {
+        const url = getPuzzleUrl(puzzle);
+        const text = `🧩 [${puzzle.title}] 퍼즐이 도착했어요!\n\n제한 시간 안에 숨겨진 단어를 모두 찾아보세요.\n\n👉 퍼즐 풀러 가기:\n${url}`;
+        navigator.clipboard.writeText(text);
+        alert('링크가 복사되었습니다!');
+    };
+
+    const handleDelete = (id: string) => {
+        if (window.confirm('정말 삭제하시겠습니까?')) {
+            deletePuzzle(id);
+            loadSavedPuzzles();
         }
     };
 
@@ -188,6 +216,49 @@ export default function PuzzleCreator() {
                             </div>
                         )}
                     </div>
+
+                    {/* New History Section */}
+                    {savedPuzzles.length > 0 && (
+                        <div className="history-section mt-4">
+                            <h2 className="section-title-sm">📂 내가 만든 퍼즐 기록</h2>
+                            <div className="history-grid">
+                                {savedPuzzles.map((puzzle) => (
+                                    <div key={puzzle.id} className="history-card">
+                                        <div className="history-info">
+                                            <h3>{puzzle.title}</h3>
+                                            <p className="date">{new Date(puzzle.createdAt).toLocaleDateString()}</p>
+                                            <p className="word-count">{puzzle.words.length}개의 단어</p>
+                                        </div>
+                                        <div className="history-actions">
+                                            <button
+                                                className="btn btn-small btn-secondary"
+                                                onClick={() => handleCopySavedUrl(puzzle)}
+                                                title="링크 복사"
+                                            >
+                                                🔗
+                                            </button>
+                                            <a
+                                                href={getPuzzleUrl(puzzle)}
+                                                target="_blank"
+                                                rel="noreferrer"
+                                                className="btn btn-small btn-primary"
+                                                title="플레이하기"
+                                            >
+                                                ▶️
+                                            </a>
+                                            <button
+                                                className="btn btn-small btn-danger"
+                                                onClick={() => handleDelete(puzzle.id)}
+                                                title="삭제"
+                                            >
+                                                🗑️
+                                            </button>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
                 </div>
 
                 <div className="creator-preview">
